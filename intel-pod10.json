@@ -12,6 +12,18 @@
     "city": "Portland",
     "resource_pool_name": "intel-pod10"
   },
+  "user_info": [
+    {
+        "name":"sridhar",
+        "password":"",
+        "pub_key":"",
+        "passphrase":"",
+        "tls_ca_cert":"",
+        "tls_cert":"",
+        "tls_key":"",
+        "email":""
+    }
+  ],
   "ntp_info": {
     "primary_ip":"",
     "primary_zone":"",
@@ -298,7 +310,7 @@
       ],
       "data_devices": [
         {
-          "name":"",
+          "name":"datadisk",
           "partitions": [
             {
               "name":"ceph",
