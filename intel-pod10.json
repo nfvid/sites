@@ -97,7 +97,10 @@
     "data_plane_used":"Vxlan",
     "ironic_deploy_interface":"",
     "external_storage_cluster":"No",
-    "bl_str_connect_method":"",
+    "bl_str_connect_method":""
+  },
+  "vim_functional": {
+      "scheduler_filters":"RetryFilter,AvailabilityZoneFilter,RamFilter,CoreFilter,DiskFilter,ComputeFilter,ImagePropertiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter,AggregateInstanceExtraSpecsFilter,AggregateCoreFilter,AggregateRamFilter,AggregateMultiTenancyIsolation,JsonFilter,IoOpsFilter,AggregateDiskFilter,AllHostsFilter,IsolatedHostsFilter,AggregateImagePropertiesIsolation,PciPassthroughFilter,AggregateIoOpsFilter,NumInstancesFilter,AggregateNumInstancesFilter,MetricsFilter,SimpleCIDRAffinityFilter,AggregateTypeAffinityFilter,NUMATopologyFilter,ComputeCapabilitiesFilter,DifferentHostFilter,SameHostFilter",
     "cpu_allocation_ratio":"1.0"
   },
   "jumphost_info": {
@@ -595,95 +598,82 @@
       "type":"vlan"
     }
   ],
-  "_comment_nw2":" User to choose either to define {Network links} or {interface, bridges and bonds}",
+  "_comment_nw2":" type: trunk (airship), interface, bridges and bonds}",
   "network_link": [
     {
       "name":"oob",
+      "type":"trunk",
       "bonding_mode":"disabled",
       "mtu":"",
       "linkspeed":"auto",
       "trunking_mode":"",
       "trunking_default_nw":"oob",
-      "allowed_networks": [
-          {
-            "name":"oob"
-          }
-      ],
       "metadata": [
         {
           "key":"noconfig",
           "value":"enabled"
         }  
       ],
-      "slaves": [
+      "members": [
         {
-          "name":""
+          "name":"ctrl_nic1"
         }  
-      ]
+      ],
+      "vid":"",
+      "vf_count":""
     },
     {
       "name":"dmz",
+      "type":"trunk",
       "bonding_mode":"disabled",
       "mtu":"1500",
       "linkspeed":"auto",
       "trunking_mode":"disabled",
       "trunking_default_nw":"dmz",
-      "allowed_networks": [
-          {
-            "name":"dmz"
-          }
-      ],
       "metadata": [
         {
           "key":"",
           "value":""
         }  
       ],
-      "slaves": [
+      "members": [
         {
           "name":"ctrl_nic1"
         }  
-      ]
+      ],
+      "vid":"",
+      "vf_count":""
     },
     {
       "name":"admin",
+      "type":"trunk",
       "bonding_mode":"disabled",
       "mtu":"1500",
       "linkspeed":"auto",
       "trunking_mode":"disabled",
       "trunking_default_nw":"admin",
-      "allowed_networks": [
-          {
-            "name":"admin"
-          }
-      ],
       "metadata": [
         {
           "key":"",
           "value":""
         }  
       ],
-      "slaves": [
+      "members": [
         {
           "name":"ctrl_nic2"
         }  
-      ]
+      ],
+      "vid":"",
+      "vf_count":""
     },
     {
       "name":"data1",
+      "type":"trunk",
       "bonding_mode":"disabled",
       "mtu":"1500",
       "linkspeed":"auto",
       "trunking_mode":"802.1q",
       "trunking_default_nw":"",
-      "allowed_networks": [
-          {
-            "name":"private"
-          },
-          {
-            "name":"management"
-          }
-      ],
       "metadata": [
         {
           "key":"",
@@ -694,23 +684,18 @@
         {
           "name":"data_nic1"
         }  
-      ]
+      ],
+      "vid":"",
+      "vf_count":""
     },
     {
       "name":"data2",
+      "type":"trunk",
       "bonding_mode":"disabled",
       "mtu":"1500",
       "linkspeed":"auto",
       "trunking_mode":"802.1q",
       "trunking_default_nw":"storage",
-      "allowed_networks": [
-          {
-            "name":"storage"
-          },
-          {
-            "name":"public"
-          }
-      ],
       "metadata": [
         {
           "key":"",
@@ -721,51 +706,78 @@
         {
           "name":"data_nic2"
         }  
-      ]
-    }
-  ],
-  "_comment_nw3": "interfaces: NICs that are not part of bond/bridge",
-  "interfaces": [
+      ],
+      "vid":"",
+      "vf_count":""
+    },
     {
       "name":"eno4.1103",
-      "type":"vlan",
-      "vid":"1103",
+      "type":"interface",
+      "bonding_mode":"disabled",
       "mtu":"1500",
+      "linkspeed":"auto",
+      "trunking_mode":"",
+      "trunking_default_nw":"",
+      "metadata": [
+        {
+          "key":"",
+          "value":""
+        }  
+      ],
+      "slaves": [
+        {
+          "name":""
+        }  
+      ],
+      "vid":"1103",
       "vf_count":""
     },
     {
       "name":"eno4",
-      "type":"sriov",
-      "vid":"",
+      "type":"interface",
+      "bonding_mode":"disabled",
       "mtu":"1500",
-      "vf_count":"32"
-    }
-  ],
-  "bonds": [
-    {
-      "name":"",
-      "type":"",
-      "mtu":"",
-      "mode":"",
-      "members": [
+      "linkspeed":"auto",
+      "trunking_mode":"",
+      "trunking_default_nw":"",
+      "metadata": [
         {
-          "interface_name":""
+          "key":"sriov",
+          "value":"true"
         }  
-      ] 
-    }  
-  ],
-  "bridges": [
+      ],
+      "slaves": [
+        {
+          "name":""
+        }  
+      ],
+      "vid":"",
+      "vf_count":"32"
+    },
     {
       "name":"br-ex",
-      "type":"ovs",
+      "type":"bridge",
+      "bonding_mode":"",
       "mtu":"1500",
+      "linkspeed":"auto",
+      "trunking_mode":"",
+      "trunking_default_nw":"",
+      "metadata": [
+        {
+          "key":"type",
+          "value":"ovs"
+        }  
+      ],
       "members": [
         {
-          "member_name":"eno4.1103",
-          "member_type":"iface"
+          "name":"eno4.1103",
+          "type":"interface"
         }  
-      ]
-    }  
+      ],
+      "vid":"",
+      "vf_count":""
+    }
+
   ],
   "_comment_nw4": "The interface_name could be links, i/f, bond, bridges",
   "_comment_nw5": "These profiles are mapped to roles",
@@ -773,6 +785,16 @@
     {
       "profile_name":"default",
       "profile_data": [
+        {
+          "interface_name":"oob",
+          "interface_type":"link",
+          "networks": [
+            {
+              "name":"oob"
+            }  
+          ],
+          "use_dhcp":"Yes"
+        },
         {
           "interface_name":"dmz",
           "interface_type":"link",
